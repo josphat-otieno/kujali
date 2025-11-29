@@ -43,7 +43,7 @@ export interface AddNoteToBudgetResult {
   /** Whether the operation was successful */
   success: boolean;
    /** The ID of the created note */
-  noteId: string;
+  noteId?: string;
    /** Error message if the operation failed */
   error?: string;
 }
