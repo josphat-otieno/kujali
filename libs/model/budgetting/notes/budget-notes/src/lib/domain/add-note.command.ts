@@ -32,7 +32,18 @@ export class AddNoteToBudgetCommand {
             this.content.trim().length > 0 &&
             this.createdBy &&
             this.createdBy.trim().length > 0 &&
-            this.createdAt instanceof Date  
+            this.createdAt instanceof Date
         );
     }
+}
+/**
+ * Result of adding a note to a budget.
+ */
+export interface AddNoteToBudgetResult {
+  /** Whether the operation was successful */
+  success: boolean;
+   /** The ID of the created note */
+  noteId: string;
+   /** Error message if the operation failed */
+  error?: string;
 }
