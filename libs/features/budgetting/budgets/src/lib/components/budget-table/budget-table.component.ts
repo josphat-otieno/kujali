@@ -1,19 +1,13 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, inject, signal, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-
-import { SubSink } from 'subsink';
-import { Observable, tap } from 'rxjs';
-
 import { Budget, BudgetRecord } from '@app/model/finance/planning/budgets';
-
 import { ShareBudgetModalComponent } from '../share-budget-modal/share-budget-modal.component';
 import { CreateBudgetModalComponent } from '../create-budget-modal/create-budget-modal.component';
 import { ChildBudgetsModalComponent } from '../../modals/child-budgets-modal/child-budgets-modal.component';
-
 @Component({
   selector: 'app-budget-table',
   templateUrl: './budget-table.component.html',
@@ -49,13 +43,13 @@ export class BudgetTableComponent {
     })).subscribe();
   }
 
-  /** 
+  /**
  * Checks whether the user has access to a certain feature.
- * 
- * @TODO @IanOdhiambo9 - Please put proper access control architecture in place. 
+ *
+ * @TODO @IanOdhiambo9 - Please put proper access control architecture in place.
  */
-  access(requested:any) 
-  {  
+  access(requested:any)
+  {
     switch (requested) {
       case 'view':
       case 'clone':
@@ -86,7 +80,7 @@ export class BudgetTableComponent {
   }
 
   /** Open share screen to configure budget access. */
-  openShareBudgetDialog(parent: Budget | false): void 
+  openShareBudgetDialog(parent: Budget | false): void
   {
     this._dialog.open(ShareBudgetModalComponent, {
       panelClass: 'no-pad-dialog',
@@ -104,8 +98,8 @@ export class BudgetTableComponent {
     });
   }
 
-  openChildBudgetDialog(parent : Budget): void 
-  { 
+  openChildBudgetDialog(parent : Budget): void
+  {
     let children: any = this.overviewBudgets.find((budget) => budget.budget.id === parent.id)!?.children;
     children = children?.map((child) => child.budget)
     this._dialog.open(ChildBudgetsModalComponent, {
